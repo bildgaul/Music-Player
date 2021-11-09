@@ -46,14 +46,5 @@ namespace Music_World
                 PlayPause.Tag = "Pause";
             }
         }
-
-        private void OnMediaEnded(object sender, RoutedEventArgs e)
-        {
-            EventHandler handler = MediaEnded;
-            player.Close();
-            Console.WriteLine("test");
-        }
-
-        private event EventHandler MediaEnded;
     }
 }
