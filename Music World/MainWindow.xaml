@@ -7,12 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="406" Margin="523,4,0,0" VerticalAlignment="Top" Width="261" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5">
+        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="406" Margin="517,4,0,0" VerticalAlignment="Top" Width="265" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5">
             <Button x:Name="add_Create" Content="Add/Create" Height="31" Width="72" Background="White" BorderBrush="Black" FontWeight="Bold"/>
             <Button x:Name="Remove" Content="Remove" Height="31" Width="72" BorderBrush="Black" Background="White" FontWeight="Bold"/>
             <Button x:Name="View" Content="View" Height="31" Width="72" Background="White" BorderBrush="Black" FontWeight="Bold"/>
             <Border BorderBrush="Black" BorderThickness="1" Height="2" Width="246"/>
         </Menu>
+        <MediaElement x:Name="Media" HorizontalAlignment="Left" Height="91" VerticalAlignment="Top" Width="100" Source="Bow.mp3" Margin="184,159,0,0" RenderTransformOrigin="0.21,0.385"/>
+        <Image x:Name="Play_Pause" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="40" Margin="221,351,0,0" Source="Pause.png"/>
 
     </Grid>
 </Window>

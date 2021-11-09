@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="18 - Luau Festival.mp3" />
+    <Content Include="Bow.mp3" />
+    <Resource Include="Play.png" />
+    <Resource Include="Pause.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
