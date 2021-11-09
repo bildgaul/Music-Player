@@ -31,8 +31,10 @@ namespace Music_World
         {
             if (PlayPause.Tag.ToString() == "Pause")
             {
-
-                player.Open(new Uri("C:/Users/bdgau/Source/Repos/Music-World/Music World/assets/toby fox - UNDERTALE Soundtrack - 100 MEGALOVANIA.mp3", UriKind.Relative));
+                if (player.Source == null)
+                {
+                    player.Open(new Uri("C:/Users/bdgau/Source/Repos/Music-World/Music World/assets/toby fox - UNDERTALE Soundtrack - 100 MEGALOVANIA.mp3", UriKind.Relative));
+                }
                 player.Play();
                 Console.WriteLine(player.Source);
                 ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
