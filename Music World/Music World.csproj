@@ -96,11 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="18 - Luau Festival.mp3" />
+    <Content Include="assets\toby fox - UNDERTALE Soundtrack - 100 MEGALOVANIA.mp3" />
     <Resource Include="assets\Pause.png" />
     <Resource Include="assets\Play.png" />
     <Content Include="Bow.mp3" />
-    <Resource Include="Pause.png" />
-    <Resource Include="Play.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
