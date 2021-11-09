@@ -36,7 +36,6 @@ namespace Music_World
                     player.Open(new Uri("C:/Users/bdgau/Source/Repos/Music-World/Music World/assets/toby fox - UNDERTALE Soundtrack - 100 MEGALOVANIA.mp3", UriKind.Relative));
                 }
                 player.Play();
-                Console.WriteLine(player.Source);
                 ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
                 PlayPause.Tag = "Play";
                 }
@@ -47,5 +46,14 @@ namespace Music_World
                 PlayPause.Tag = "Pause";
             }
         }
+
+        private void OnMediaEnded(object sender, RoutedEventArgs e)
+        {
+            EventHandler handler = MediaEnded;
+            player.Close();
+            Console.WriteLine("test");
+        }
+
+        private event EventHandler MediaEnded;
     }
 }
