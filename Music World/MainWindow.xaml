@@ -1,0 +1,18 @@
+﻿<Window x:Class="Music_World.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Music_World"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="406" Margin="523,4,0,0" VerticalAlignment="Top" Width="261" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5">
+            <Button x:Name="add_Create" Content="Add/Create" Height="31" Width="72" Background="White" BorderBrush="Black" FontWeight="Bold"/>
+            <Button x:Name="Remove" Content="Remove" Height="31" Width="72" BorderBrush="Black" Background="White" FontWeight="Bold"/>
+            <Button x:Name="View" Content="View" Height="31" Width="72" Background="White" BorderBrush="Black" FontWeight="Bold"/>
+            <Border BorderBrush="Black" BorderThickness="1" Height="2" Width="246"/>
+        </Menu>
+
+    </Grid>
+</Window>
