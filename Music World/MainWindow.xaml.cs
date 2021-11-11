@@ -25,6 +25,7 @@ namespace Music_World
         public MainWindow()
         {
             InitializeComponent();
+            player.MediaEnded += OnMediaEnded;
         }
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
@@ -38,6 +39,7 @@ namespace Music_World
                 player.Play();
                 ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
                 PlayPause.Tag = "Play";
+                Console.WriteLine(player.HasVideo);
                 }
             else if (PlayPause.Tag.ToString() == "Play")
             {
@@ -47,13 +49,9 @@ namespace Music_World
             }
         }
 
-        private void OnMediaEnded(object sender, RoutedEventArgs e)
+        private void OnMediaEnded(object sender, EventArgs e)
         {
-            EventHandler handler = MediaEnded;
-            player.Close();
-            Console.WriteLine("test");
+            player.Stop();
         }
-
-        private event EventHandler MediaEnded;
     }
 }
