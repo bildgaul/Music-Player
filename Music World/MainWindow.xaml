@@ -10,15 +10,45 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="406" Margin="517,4,0,0" VerticalAlignment="Top" Width="265" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5">
-            <Button x:Name="add_Create" Content="Add/Create" Height="31" Width="72" Background="White" BorderBrush="Black" FontWeight="Bold"/>
-            <Button x:Name="Remove" Content="Remove" Height="31" Width="72" BorderBrush="Black" Background="White" FontWeight="Bold"/>
-            <Button x:Name="View" Content="View" Height="31" Width="72" Background="White" BorderBrush="Black" FontWeight="Bold"/>
-            <Border BorderBrush="Black" BorderThickness="1" Height="2" Width="246"/>
-        </Menu>
         <Button x:Name="PlayPause" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="228,336,0,0" Height="40" Click="PlayPause_Click" Tag="Pause">
             <Image x:Name="ButtonImage" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Source="assets/Play.png"/>
         </Button>
+        <Border BorderBrush="Black" BorderThickness="1.5" HorizontalAlignment="Left" Height="400" Margin="510,10,0,0" VerticalAlignment="Top" Width="274">
+            <ComboBox x:Name="Add_Create" HorizontalAlignment="Left" Height="30" Margin="8.4,8.4,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black" FontSize="18">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+                <Button BorderBrush="{x:Null}" Background="White" Content="Add New Song" FontSize="15"/>
+                <Button BorderBrush="{x:Null}" Background="White" Content="Add Song To Playlist" FontSize="15"/>
+                <Button BorderBrush="{x:Null}" Background="White" Content="Create Playlist" FontSize="15"/>
+            </ComboBox>
+        </Border>
+        <ProgressBar x:Name="Progress" HorizontalAlignment="Left" Height="6" Margin="122,291,0,0" VerticalAlignment="Top" Width="252"/>
+        <ComboBox x:Name="Remove" HorizontalAlignment="Left" Height="30" Margin="611,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+            <Button BorderBrush="{x:Null}" Background="White" Content="Remove Audio" FontSize="15"/>
+            <Button BorderBrush="{x:Null}" Background="White" Content="Remove Playlist" FontSize="15"/>
+        </ComboBox>
+        <ComboBox x:Name="View" HorizontalAlignment="Left" Height="30" Margin="702,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+            <Button BorderBrush="{x:Null}" Background="White" Content="All Audio" FontSize="15"/>
+            <Button BorderBrush="{x:Null}" Background="White" Content="Playlist 1" FontSize="15"/>
+            <Button BorderBrush="{x:Null}" Background="White" Content="Playlist 2" FontSize="15"/>
+            <Button BorderBrush="{x:Null}" Background="White" Content="Playlist N" FontSize="15"/>
+        </ComboBox>
 
     </Grid>
 </Window>
