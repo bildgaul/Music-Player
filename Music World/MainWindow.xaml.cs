@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,18 @@ namespace Music_World
     public partial class MainWindow : Window
     {
         MediaPlayer player = new MediaPlayer();
-
+        OpenFileDialog fileSelector = new OpenFileDialog();
         public MainWindow()
         {
             InitializeComponent();
-            player.MediaEnded += OnMediaEnded;
+            fileSelector.Filter = "Music Files|*.mp3;*.wav" +
+                "|All Files|*.*";
+            fileSelector.DefaultExt = ".mp3";
+            fileSelector.Title = "Add Audio File";
+            fileSelector.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+
+            player.MediaEnded += OnMediaEnded; // Connect the MediaEnded event to the function
+
         }
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
@@ -52,6 +60,11 @@ namespace Music_World
         private void OnMediaEnded(object sender, EventArgs e)
         {
             player.Stop();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            fileSelector.ShowDialog();
         }
     }
 }
