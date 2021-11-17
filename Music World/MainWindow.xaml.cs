@@ -23,6 +23,7 @@ namespace Music_World
     {
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
+        Uri location; // Temporary, will be removed later
         public MainWindow()
         {
             InitializeComponent();
@@ -33,7 +34,6 @@ namespace Music_World
             fileSelector.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
 
             player.MediaEnded += OnMediaEnded; // Connect the MediaEnded event to the function
-
         }
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
@@ -42,7 +42,7 @@ namespace Music_World
             {
                 if (player.Source == null)
                 {
-                    player.Open(new Uri("C:/Users/bdgau/Source/Repos/Music-World/Music World/assets/toby fox - UNDERTALE Soundtrack - 100 MEGALOVANIA.mp3", UriKind.Relative));
+                    player.Open(location);
                 }
                 player.Play();
                 ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
@@ -65,6 +65,8 @@ namespace Music_World
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             fileSelector.ShowDialog();
+            string fileName = fileSelector.FileName;
+            location = new Uri(fileName);
         }
     }
 }
