@@ -24,6 +24,10 @@ namespace Music_World
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
         Uri location; // Temporary, will be removed later
+
+        /*
+         * Description: Initializes and sets up everything required for the music player to work
+         */
         public MainWindow()
         {
             InitializeComponent();
@@ -62,11 +66,18 @@ namespace Music_World
             player.Stop();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddAudioFile_Click(object sender, RoutedEventArgs e)
         {
             fileSelector.ShowDialog();
             string fileName = fileSelector.FileName;
-            location = new Uri(fileName);
+            try
+            {
+                location = new Uri(fileName);
+            }
+            catch (System.UriFormatException)
+            {
+                MessageBox.Show("Could not open file.");
+            }
         }
     }
 }
