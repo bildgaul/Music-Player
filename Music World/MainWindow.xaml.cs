@@ -1,18 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Music_World
 {
@@ -23,7 +14,8 @@ namespace Music_World
     {
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
-        Uri location; // Temporary, will be removed later
+        Uri currentAudio;
+        bool isPlaying = false;
 
         /*
          * Description: Initializes and sets up everything required for the music player to work
@@ -40,41 +32,58 @@ namespace Music_World
             player.MediaEnded += OnMediaEnded; // Connect the MediaEnded event to the function
         }
 
-        private void PlayPause_Click(object sender, RoutedEventArgs e)
+        private void Play()
         {
-            if (PlayPause.Tag.ToString() == "Pause")
+            if (player.Source != currentAudio)
             {
-                if (player.Source == null)
-                {
-                    player.Open(location);
-                }
-                player.Play();
-                ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
-                PlayPause.Tag= "Play";
-                }
-            else if (PlayPause.Tag.ToString() == "Play")
+                player.Close();
+                player.Open(currentAudio);
+            }
+            player.Play();
+            ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
+            isPlaying = true;
+        }
+
+        private void Pause()
+        {
+            if (player.CanPause)
             {
                 player.Pause();
                 ButtonImage.Source = new BitmapImage(new Uri("assets/Play.png", UriKind.Relative));
-                PlayPause.Tag = "Pause";
+                isPlaying = false;
+            }
+        }
+
+
+        private void PlayPause_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isPlaying && player.Source != null)
+            {
+                Play();
+            }
+            else if (isPlaying)
+            {
+                Pause();
             }
         }
 
         private void OnMediaEnded(object sender, EventArgs e)
         {
             player.Stop();
+            ButtonImage.Source = new BitmapImage(new Uri("assets/Play.png", UriKind.Relative));
+            isPlaying = false;
         }
 
         private void AddAudioFile_Click(object sender, RoutedEventArgs e)
         {
             fileSelector.ShowDialog();
             string fileName = fileSelector.FileName;
+            // check to see if audiofile is already loaded
             
             try
             {
-                location = new Uri(fileName);
-                AudioFactory audioFactory = new AudioFileFactory();
-                IAudio audio = audioFactory.CreateAudioFile(location, fileSelector.SafeFileName);
+                // currentAudio = new Uri(fileName);
+                IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
                 Button audioFileButton = audio.CreateButton();
                 audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
                 ViewPanel.Children.Add(audioFileButton);
@@ -89,8 +98,9 @@ namespace Music_World
         {
             Button button = sender as Button; // https://stackoverflow.com/questions/14479143/what-is-the-use-of-object-sender-and-eventargs-e-parameters
             AudioFile audioFile = button.Tag as AudioFile;
-            player.Close();
-            location = audioFile.GetLocation();
+            currentAudio = audioFile.GetLocation();
+            Play();
+            // add play icon next to name
         }
     }
 }
