@@ -73,6 +73,10 @@ namespace Music_World
             try
             {
                 location = new Uri(fileName);
+                AudioFactory audioFactory = new AudioFileFactory();
+                IAudio audio = audioFactory.CreateAudioFile(location, fileSelector.SafeFileName);
+                
+                //ViewPanel.Children.Add(fileButton);
             }
             catch (System.UriFormatException)
             {

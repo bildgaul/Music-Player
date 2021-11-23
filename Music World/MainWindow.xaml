@@ -49,6 +49,7 @@
             <Button BorderBrush="{x:Null}" Background="White" Content="Playlist 2" FontSize="15"/>
             <Button BorderBrush="{x:Null}" Background="White" Content="Playlist N" FontSize="15"/>
         </ComboBox>
+        <StackPanel x:Name="ViewPanel" HorizontalAlignment="Left" Height="346" VerticalAlignment="Top" Width="272" Margin="510,63,0,0"/>
 
     </Grid>
 </Window>
