@@ -11,7 +11,7 @@ namespace Music_World
 {
     public class AudioFile : IAudio
     {
-        private struct AudioData
+        public struct AudioData
         {
             public Uri location;
             public string fileName; // Contains the name of the file presented on the computer
@@ -33,10 +33,16 @@ namespace Music_World
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Right,
                 Content = data.fileName, // switch with audioName if possible
                 Background = Brushes.White,
+                Tag = this
             };
 
             audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
             return audioFileButton;
+        }
+
+        public Uri GetLocation()
+        {
+            return data.location;
         }
 
         private void AudioFileButton_MouseDoubleClick(object sender, RoutedEventArgs e)

@@ -50,8 +50,7 @@ namespace Music_World
                 }
                 player.Play();
                 ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
-                PlayPause.Tag = "Play";
-                Console.WriteLine(player.HasVideo);
+                PlayPause.Tag= "Play";
                 }
             else if (PlayPause.Tag.ToString() == "Play")
             {
@@ -70,18 +69,28 @@ namespace Music_World
         {
             fileSelector.ShowDialog();
             string fileName = fileSelector.FileName;
+            
             try
             {
                 location = new Uri(fileName);
                 AudioFactory audioFactory = new AudioFileFactory();
                 IAudio audio = audioFactory.CreateAudioFile(location, fileSelector.SafeFileName);
-                
-                //ViewPanel.Children.Add(fileButton);
+                Button audioFileButton = audio.CreateButton();
+                audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
+                ViewPanel.Children.Add(audioFileButton);
             }
             catch (System.UriFormatException)
             {
                 MessageBox.Show("Could not open file.");
             }
+        }
+        
+        private void AudioFileButton_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button; // https://stackoverflow.com/questions/14479143/what-is-the-use-of-object-sender-and-eventargs-e-parameters
+            AudioFile audioFile = button.Tag as AudioFile;
+            player.Close();
+            location = audioFile.GetLocation();
         }
     }
 }
