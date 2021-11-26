@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +15,8 @@ namespace Music_World
     {
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
+        List<AudioFile> storedAudioFiles = new List<AudioFile>();
+
         Uri currentAudio;
         bool isPlaying = false;
 
@@ -57,7 +60,7 @@ namespace Music_World
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
         {
-            if (!isPlaying && player.Source != null)
+            if (!isPlaying && currentAudio != null)
             {
                 Play();
             }
@@ -82,11 +85,26 @@ namespace Music_World
             
             try
             {
-                // currentAudio = new Uri(fileName);
+                currentAudio = new Uri(fileName);
                 IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
-                Button audioFileButton = audio.CreateButton();
-                audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
-                ViewPanel.Children.Add(audioFileButton);
+                bool alreadyStored = false;
+                foreach (AudioFile audioFile in storedAudioFiles)
+                {
+                    if (fileName == audioFile.GetLocation().OriginalString){
+                        alreadyStored = true;
+                    }
+                }
+                if (alreadyStored)
+                {
+                    MessageBox.Show("Cannot store two of the same audio.");
+                }
+                else
+                {
+                    Button audioFileButton = audio.CreateButton();
+                    audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
+                    ViewPanel.Children.Add(audioFileButton);
+                    storedAudioFiles.Add((AudioFile)audio);
+                }
             }
             catch (System.UriFormatException)
             {
