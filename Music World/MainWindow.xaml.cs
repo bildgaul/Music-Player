@@ -98,7 +98,8 @@ namespace Music_World
             {
                 try
                 {
-                    currentAudio = new Uri(fileName);
+                    if (currentAudio == null)
+                        currentAudio = new Uri(fileName);
                     IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
                     Button audioFileButton = audio.CreateButton();
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
