@@ -102,7 +102,7 @@ namespace Music_World
                     IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
                     Button audioFileButton = audio.CreateButton();
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
-                    ViewPanel.Children.Add(audioFileButton);
+                    AllAudio.Children.Add(audioFileButton);
                     storedAudioFiles.Add((AudioFile)audio);
                 }
                 catch (System.UriFormatException)
