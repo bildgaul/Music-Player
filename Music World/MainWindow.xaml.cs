@@ -81,35 +81,36 @@ namespace Music_World
         {
             fileSelector.ShowDialog();
             string fileName = fileSelector.FileName;
-            // check to see if audiofile is already loaded
-            
-            try
+
+            bool alreadyStored = false;
+            foreach (AudioFile audioFile in storedAudioFiles)
             {
-                currentAudio = new Uri(fileName);
-                IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
-                bool alreadyStored = false;
-                foreach (AudioFile audioFile in storedAudioFiles)
+                if (fileName == audioFile.GetLocation().OriginalString)
                 {
-                    if (fileName == audioFile.GetLocation().OriginalString){
-                        alreadyStored = true;
-                    }
+                    alreadyStored = true;
                 }
-                if (alreadyStored)
+            }
+            if (alreadyStored)
+            {
+                MessageBox.Show("Cannot store two of the same audio.");
+            }
+            else
+            {
+                try
                 {
-                    MessageBox.Show("Cannot store two of the same audio.");
-                }
-                else
-                {
+                    currentAudio = new Uri(fileName);
+                    IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
                     Button audioFileButton = audio.CreateButton();
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
                     ViewPanel.Children.Add(audioFileButton);
                     storedAudioFiles.Add((AudioFile)audio);
                 }
+                catch (System.UriFormatException)
+                {
+                    MessageBox.Show("Could not open file.");
+                }
             }
-            catch (System.UriFormatException)
-            {
-                MessageBox.Show("Could not open file.");
-            }
+            
         }
         
         private void AudioFileButton_MouseDoubleClick(object sender, RoutedEventArgs e)
