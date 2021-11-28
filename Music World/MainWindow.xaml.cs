@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -16,6 +17,8 @@ namespace Music_World
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
         List<AudioFile> storedAudioFiles = new List<AudioFile>();
+        Mp3FileReader reader;
+        TimeSpan duration;
 
         Uri currentAudio;
         bool isPlaying = false;
@@ -34,6 +37,8 @@ namespace Music_World
 
             player.MediaEnded += OnMediaEnded; // Connect the MediaEnded event to the function
         }
+
+        
 
         private void Play()
         {
@@ -105,6 +110,9 @@ namespace Music_World
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
                     AllAudio.Children.Add(audioFileButton);
                     storedAudioFiles.Add((AudioFile)audio);
+                    reader = new Mp3FileReader(fileName);
+                    duration = reader.TotalTime;
+                    Console.WriteLine(duration);
                 }
                 catch (System.UriFormatException)
                 {
@@ -121,6 +129,44 @@ namespace Music_World
             currentAudio = audioFile.GetLocation();
             Play();
             // add play icon next to name
+        }
+
+        private void ProgressBar()
+        {
+            ProgressBar pBar = new ProgressBar();
+
+            pBar.Minimum = 1;
+            pBar.Maximum = (Convert.ToDouble(duration));
+            pBar.Value = 1;
+            Console.WriteLine(pBar.Maximum);
+
+            for (int progress = 1; progress <= (Convert.ToDouble(duration)); progress++)
+            {
+                if (currentAudio == null)
+                {
+                    pBar.Value = 1;
+                }
+                else if (isPlaying == true)
+                {
+                    pBar.Value += 1;
+                }
+                else
+                {
+                    pBar.Value = pBar.Value;
+                }
+            }
+        }
+
+        private void Progress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isPlaying && currentAudio != null)
+            {
+
+            }
+            else if (isPlaying == true)
+            {
+                ProgressBar();
+            }
         }
     }
 }

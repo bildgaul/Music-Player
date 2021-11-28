@@ -15,7 +15,7 @@
             <Button x:Name="PlayPause" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Margin="0,0,0,43" Height="40" Click="PlayPause_Click" Tag="Pause" DockPanel.Dock="Bottom">
                 <Image x:Name="ButtonImage" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Source="assets/Play.png"/>
             </Button>
-            <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="6" Margin="0,0,0,39" VerticalAlignment="Bottom" Width="252" DockPanel.Dock="Bottom"/>
+            <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="6" Margin="0,0,0,39" VerticalAlignment="Bottom" Width="252" DockPanel.Dock="Bottom" Background="{x:Null}" BorderBrush="Black" Foreground="#FF9A1313" ValueChanged="Progress_ValueChanged"/>
         </DockPanel>
 
         <Border BorderBrush="Black" BorderThickness="1.5" HorizontalAlignment="Right" Width="282">
