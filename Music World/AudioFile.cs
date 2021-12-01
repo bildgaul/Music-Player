@@ -11,15 +11,16 @@ namespace Music_World
         {
             public Uri location;
             public string fileName; // Contains the name of the file presented on the computer
-            // public string audioName; // Actual audio name vs the name with it's extention, include if possible
+            public string audioName; // Actual audio name vs the name with it's extention, include if possible
             // {image} albumCover; include if possible, maybe alongside audioName
         }
         AudioData data;
 
-        public void AddData(Uri location, string fileName)
+        public void AddData(Uri location, string fileName, string audioName)
         {
             data.location = location;
             data.fileName = fileName;
+            data.audioName = audioName;
         }
 
         public Button CreateButton()
@@ -27,10 +28,14 @@ namespace Music_World
             Button audioFileButton = new Button()
             {
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Right,
-                Content = data.fileName, // switch with audioName if possible
+                Content = data.audioName, // switch with audioName if possible
                 Background = Brushes.White,
                 Tag = this
             };
+            if (audioFileButton.Content == null)
+            {
+                audioFileButton.Content = data.fileName;
+            }
 
             audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
             return audioFileButton;

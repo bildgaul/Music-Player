@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TagLib;
 
 namespace Music_World
 {
@@ -63,6 +64,7 @@ namespace Music_World
             if (!isPlaying && currentAudio != null)
             {
                 Play();
+                Console.WriteLine(player.NaturalDuration.TimeSpan);
             }
             else if (isPlaying)
             {
@@ -98,9 +100,10 @@ namespace Music_World
             {
                 try
                 {
+                    File fileTags = TagLib.File.Create(fileName);
                     if (currentAudio == null)
                         currentAudio = new Uri(fileName);
-                    IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName);
+                    IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName, fileTags.Tag.Title);
                     Button audioFileButton = audio.CreateButton();
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
                     AllAudio.Children.Add(audioFileButton);
