@@ -19,6 +19,7 @@ namespace Music_World
         List<AudioFile> storedAudioFiles = new List<AudioFile>();
         Mp3FileReader reader;
         TimeSpan duration;
+        double totalTime;
 
         Uri currentAudio;
         bool isPlaying = false;
@@ -50,6 +51,14 @@ namespace Music_World
             player.Play();
             ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
             isPlaying = true;
+
+            reader = new Mp3FileReader(currentAudio.OriginalString);
+            duration = reader.TotalTime;
+            //Referene: https://stackoverflow.com/questions/16252911/c-how-do-i-convert-a-timespan-value-to-a-double
+            totalTime = (duration.Minutes / 1.0 + duration.Seconds / 100.0) * (duration > TimeSpan.Zero ? 1 : -1);
+            Console.WriteLine(duration);
+            Console.WriteLine(totalTime);
+            ProgressBar();
         }
 
         private void Pause()
@@ -110,9 +119,6 @@ namespace Music_World
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
                     AllAudio.Children.Add(audioFileButton);
                     storedAudioFiles.Add((AudioFile)audio);
-                    reader = new Mp3FileReader(fileName);
-                    duration = reader.TotalTime;
-                    Console.WriteLine(duration);
                 }
                 catch (System.UriFormatException)
                 {
@@ -136,11 +142,11 @@ namespace Music_World
             ProgressBar pBar = new ProgressBar();
 
             pBar.Minimum = 1;
-            pBar.Maximum = (Convert.ToDouble(duration));
+            pBar.Maximum = totalTime*100;
             pBar.Value = 1;
             Console.WriteLine(pBar.Maximum);
 
-            for (int progress = 1; progress <= (Convert.ToDouble(duration)); progress++)
+            for (int progress = 1; progress <= totalTime*100; progress++)
             {
                 if (currentAudio == null)
                 {
