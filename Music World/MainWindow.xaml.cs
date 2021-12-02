@@ -23,6 +23,8 @@ namespace Music_World
         Playlist currentPlaylist;
 
         bool isPlaying = false;
+        bool repeat = false;
+        bool shuffle = false;
 
         /*
          * Description: Initializes and sets up everything required for the music player to work
@@ -315,8 +317,46 @@ namespace Music_World
         private void OnMediaEnded(object sender, EventArgs e)
         {
             player.Stop();
-            ButtonImage.Source = new BitmapImage(new Uri("assets/Play.png", UriKind.Relative));
-            isPlaying = false;
+
+            if (repeat == true)
+            {
+                Play();
+            }
+            else if (shuffle == true)
+            {
+                if (currentPlaylist == null && storedAudioFiles.Count > 1)
+                {
+                    Random random = new Random();
+                    int index;
+                    do
+                    {
+                        index = random.Next(0, storedAudioFiles.Count - 1);
+                    } while (index == storedAudioFiles.IndexOf(currentAudio));
+                    currentAudio = storedAudioFiles[index];
+                    Play();
+                }
+                else if (currentPlaylist != null && currentPlaylist.AudioFiles.Count > 1)
+                {
+                    Random random = new Random();
+                    int index;
+                    do
+                    {
+                        index = random.Next(0, storedAudioFiles.Count - 1);
+                    } while (index == currentPlaylist.AudioFiles.IndexOf(currentAudio));
+                    currentAudio = currentPlaylist.AudioFiles[index];
+                    Play();
+                }
+            }
+            else
+            {
+                if (currentPlaylist != null && currentAudio != currentPlaylist.AudioFiles[currentPlaylist.AudioFiles.Count - 1])
+                {
+                    currentAudio = currentPlaylist.AudioFiles[currentPlaylist.AudioFiles.IndexOf(currentAudio) + 1];
+                    Play();
+                }
+                ButtonImage.Source = new BitmapImage(new Uri("assets/Play.png", UriKind.Relative));
+                isPlaying = false;
+            }
         }
 
         private void AddAudioFile_Click(object sender, RoutedEventArgs e)
@@ -354,7 +394,7 @@ namespace Music_World
                     AllAudio.Children.Add(audioFileButton);
                     storedAudioFiles.Add((AudioFile)audio);
                 }
-                catch (System.UriFormatException)
+                catch (TagLib.UnsupportedFormatException)
                 {
                     MessageBox.Show("Could not open file.");
                 }
@@ -408,6 +448,21 @@ namespace Music_World
             }
 
             Play();
+        }
+
+        private void Shuffle_Click(object sender, RoutedEventArgs e)
+        {
+            shuffle = !shuffle;
+        }
+
+        private void Repeat_Click(object sender, RoutedEventArgs e)
+        {
+            repeat = !repeat;
+        }
+
+        private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            player.Volume = Volume.Value;
         }
     }
 }
