@@ -7,7 +7,7 @@ namespace Music_World
     {
         void AddData(Uri location, string fileName, string audioName);
         Button CreateButton();
-        void AddAudioFile();
-        void RemoveAudioFile();
+        void AddAudioFile(AudioFile audioFile);
+        void RemoveAudioFile(AudioFile audioFile);
     }
 }

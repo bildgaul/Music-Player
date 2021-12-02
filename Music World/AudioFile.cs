@@ -36,8 +36,6 @@ namespace Music_World
             {
                 audioFileButton.Content = data.fileName;
             }
-
-            audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
             return audioFileButton;
         }
 
@@ -45,21 +43,23 @@ namespace Music_World
         {
             return data.location;
         }
-
-        private void AudioFileButton_MouseDoubleClick(object sender, RoutedEventArgs e)
+        public string GetAudioName()
         {
-
-            // check for playing song
-            // if song playing stop it
-            // start this song
-            // add visual thingy
+            if (data.audioName != null)
+            {
+                return data.audioName;
+            }
+            else
+            {
+                return data.fileName;
+            }
         }
 
-        public void AddAudioFile()
+        public void AddAudioFile(AudioFile audioFile)
         {
             // leaves do not need children
         }
-        public void RemoveAudioFile()
+        public void RemoveAudioFile(AudioFile audioFile)
         {
             // leaves do not need children
         }

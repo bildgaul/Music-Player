@@ -17,8 +17,11 @@ namespace Music_World
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
         List<AudioFile> storedAudioFiles = new List<AudioFile>();
+        List<Playlist> storedPlaylists = new List<Playlist>();
 
         Uri currentAudio;
+        Playlist currentPlaylist;
+
         bool isPlaying = false;
 
         /*
@@ -58,13 +61,124 @@ namespace Music_World
             }
         }
 
+        private void CreateNewPlaylist(string name)
+        {
+            Playlist playlist = new Playlist(name);
+            storedPlaylists.Add(playlist);
+            currentPlaylist = playlist;
+
+            Button playlistButton = playlist.CreateButton();
+            playlistButton.Click += SwitchPlaylists;
+            View.Items.Add(playlistButton);
+
+            AllAudio.Children.Clear();
+        }
+
+        private void CreatePlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            PlaylistNameBox.Visibility = Visibility.Visible;
+        }
+
+        private void PlaylistNameBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                CreateNewPlaylist(PlaylistNameBox.Text);
+                PlaylistNameBox.Text = "Playlist Name";
+                PlaylistNameBox.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void AddAudioFileToPlayList(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            AudioFile audioFile = menuItem.Tag as AudioFile;
+
+            AudioMenu.Height = 0;
+            AudioMenu.Items.Clear();
+            AudioScroll.Visibility = Visibility.Collapsed;
+
+            if (currentPlaylist.AudioFiles.Contains(audioFile))
+            {
+                MessageBox.Show("Cannot add two of the same audio to a playlist.");
+                return;
+            }
+            
+            currentPlaylist.AddAudioFile(audioFile);
+            Button audioFileButton = audioFile.CreateButton();
+            audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
+            AllAudio.Children.Add(audioFileButton);
+        }
+
+        private void AddToPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (currentPlaylist == null)
+            {
+                MessageBox.Show("No playlist selected.");
+                return;
+            }
+            else if (AudioMenu.Height != 0)
+            {
+                return; // prevent readding all audio files
+            }
+            else
+            {
+                AudioScroll.Visibility = Visibility.Visible;
+
+                foreach (AudioFile audio in storedAudioFiles)
+                {
+                    MenuItem menuItem = new MenuItem()
+                    {
+                        Header = audio.GetAudioName(),
+                        Width = 100,
+                        Height = 20,
+                        HorizontalContentAlignment = HorizontalAlignment.Right,
+                        Tag = audio
+                    };
+                    menuItem.Click += AddAudioFileToPlayList;
+
+                    AudioMenu.Height += 20;
+                    AudioMenu.Items.Add(menuItem);
+                }
+            }
+        }
+
+        private void SwitchPlaylists(object sender, RoutedEventArgs e)
+        {
+            Button playlistButton = sender as Button;
+            AllAudio.Children.Clear();
+
+            if (playlistButton.Name == "ViewAllAudio")
+            {
+                currentPlaylist = null;
+
+                foreach (AudioFile audioFile in storedAudioFiles)
+                {
+                    Button audioFileButton = audioFile.CreateButton();
+                    audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
+                    AllAudio.Children.Add(audioFileButton);
+                }
+            }
+            else
+            {
+                currentPlaylist = playlistButton.Tag as Playlist;
+
+                foreach (AudioFile audioFile in currentPlaylist.AudioFiles)
+                {
+                    Button audioFileButton = audioFile.CreateButton();
+                    audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
+                    AllAudio.Children.Add(audioFileButton);
+                }
+            }
+            
+        }
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
         {
             if (!isPlaying && currentAudio != null)
             {
                 Play();
-                Console.WriteLine(player.NaturalDuration.TimeSpan);
             }
             else if (isPlaying)
             {
@@ -81,6 +195,12 @@ namespace Music_World
 
         private void AddAudioFile_Click(object sender, RoutedEventArgs e)
         {
+            if (currentPlaylist != null)
+            {
+                MessageBox.Show("Cannot add audio files when a playlist is open.");
+                return;
+            }
+
             fileSelector.ShowDialog();
             string fileName = fileSelector.FileName;
 
@@ -92,6 +212,7 @@ namespace Music_World
                     alreadyStored = true;
                 }
             }
+
             if (alreadyStored)
             {
                 MessageBox.Show("Cannot store two of the same audio.");
@@ -100,9 +221,9 @@ namespace Music_World
             {
                 try
                 {
-                    File fileTags = TagLib.File.Create(fileName);
                     if (currentAudio == null)
                         currentAudio = new Uri(fileName);
+                    File fileTags = TagLib.File.Create(fileName);
                     IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName, fileTags.Tag.Title);
                     Button audioFileButton = audio.CreateButton();
                     audioFileButton.MouseDoubleClick += AudioFileButton_MouseDoubleClick;
@@ -114,7 +235,6 @@ namespace Music_World
                     MessageBox.Show("Could not open file.");
                 }
             }
-            
         }
         
         private void AudioFileButton_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -125,5 +245,7 @@ namespace Music_World
             Play();
             // add play icon next to name
         }
+
+        
     }
 }

@@ -28,8 +28,8 @@
                         </LinearGradientBrush>
                     </ComboBox.Background>
                     <Button x:Name="AddAudioFile" BorderBrush="{x:Null}" Background="White" Content="Add New Song" FontSize="15" Width="139" Click="AddAudioFile_Click"/>
-                    <Button x:Name="AddToPlaylist" BorderBrush="{x:Null}" Background="White" Content="Add Song To Playlist" FontSize="15"/>
-                    <Button x:Name="CreatePlaylist" BorderBrush="{x:Null}" Background="White" Content="Create Playlist" FontSize="15" Width="139"/>
+                    <Button x:Name="AddToPlaylist" BorderBrush="{x:Null}" Background="White" Content="Add Song To Playlist" FontSize="15" Click="AddToPlaylist_Click"/>
+                    <Button x:Name="CreatePlaylist" BorderBrush="{x:Null}" Background="White" Content="Create Playlist" FontSize="15" Width="139" Click="CreatePlaylist_Click"/>
                 </ComboBox>
                 <ComboBox x:Name="Remove" HorizontalAlignment="Left" Height="30" Margin=" 16.8,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black">
                     <ComboBox.Background>
@@ -48,15 +48,17 @@
                             <GradientStop Color="White" Offset="1"/>
                         </LinearGradientBrush>
                     </ComboBox.Background>
-                    <Button BorderBrush="{x:Null}" Background="White" Content="All Audio" FontSize="15"/>
-                    <Button BorderBrush="{x:Null}" Background="White" Content="Playlist 1" FontSize="15"/>
-                    <Button BorderBrush="{x:Null}" Background="White" Content="Playlist 2" FontSize="15"/>
-                    <Button BorderBrush="{x:Null}" Background="White" Content="Playlist N" FontSize="15"/>
+                    <Button x:Name="ViewAllAudio" BorderBrush="{x:Null}" Background="White" Content="All Audio" FontSize="15" Click="SwitchPlaylists"/>
                 </ComboBox>
                 <ScrollViewer Width="271" VerticalScrollBarVisibility="Auto" Height="345" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Margin="-263.5,0,0,0">
                     <StackPanel x:Name="AllAudio" HorizontalAlignment="Left" Width="271"/>
                 </ScrollViewer>
             </DockPanel>
         </Border>
+        
+        <TextBox x:Name="PlaylistNameBox" HorizontalAlignment="Center" Height="30" Text="Playlist Name" VerticalAlignment="Center" Width="120" FontSize="15" Background="{x:Null}" BorderBrush="Black" MaxLines="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" AllowDrop="False" MaxLength="15" KeyDown="PlaylistNameBox_KeyDown" Visibility="Collapsed"/>
+        <ScrollViewer x:Name="AudioScroll" HorizontalAlignment="Center" Height="200" VerticalAlignment="Center" Width="100" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+            <Menu x:Name="AudioMenu" HorizontalAlignment="Center" Height="0" VerticalAlignment="Center" Width="100" Visibility="Visible"/>
+        </ScrollViewer>
     </Grid>
 </Window>
