@@ -17,7 +17,8 @@ namespace Music_World
         MediaPlayer player = new MediaPlayer();
         OpenFileDialog fileSelector = new OpenFileDialog();
         List<AudioFile> storedAudioFiles = new List<AudioFile>();
-        Mp3FileReader reader;
+        Mp3FileReader mp3Reader;
+        WaveFileReader waveReader;
         TimeSpan duration;
         double totalTime;
 
@@ -39,8 +40,6 @@ namespace Music_World
             player.MediaEnded += OnMediaEnded; // Connect the MediaEnded event to the function
         }
 
-        
-
         private void Play()
         {
             if (player.Source != currentAudio)
@@ -52,13 +51,20 @@ namespace Music_World
             ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
             isPlaying = true;
 
-            reader = new Mp3FileReader(currentAudio.OriginalString);
-            duration = reader.TotalTime;
+            mp3Reader = new Mp3FileReader(currentAudio.OriginalString);
+            duration = mp3Reader.TotalTime;
             //Referene: https://stackoverflow.com/questions/16252911/c-how-do-i-convert-a-timespan-value-to-a-double
-            totalTime = (duration.Minutes / 1.0 + duration.Seconds / 100.0) * (duration > TimeSpan.Zero ? 1 : -1);
+            totalTime = (((duration.Minutes / 1.0)*60) + (duration.Seconds / 100.0)*100) * (duration > TimeSpan.Zero ? 1 : -1);
             Console.WriteLine(duration);
             Console.WriteLine(totalTime);
             ProgressBar();
+
+            /*waveReader = new WaveFileReader(currentAudio.OriginalString);
+            duration = waveReader.TotalTime;
+            totalTime = (duration.Minutes / 1.0 + duration.Seconds / 100.0) * (duration > TimeSpan.Zero ? 1 : -1);
+            Console.WriteLine(duration);
+            Console.WriteLine(totalTime);
+            ProgressBar();*/
         }
 
         private void Pause()
@@ -142,11 +148,11 @@ namespace Music_World
             ProgressBar pBar = new ProgressBar();
 
             pBar.Minimum = 1;
-            pBar.Maximum = totalTime*100;
+            pBar.Maximum = totalTime;
             pBar.Value = 1;
             Console.WriteLine(pBar.Maximum);
 
-            for (int progress = 1; progress <= totalTime*100; progress++)
+            for (int progress = 1; progress <= totalTime; progress++)
             {
                 if (currentAudio == null)
                 {
@@ -154,6 +160,7 @@ namespace Music_World
                 }
                 else if (isPlaying == true)
                 {
+                    Label.Content = Convert.ToString(progress);
                     pBar.Value += 1;
                 }
                 else
