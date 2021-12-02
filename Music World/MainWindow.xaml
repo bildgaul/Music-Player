@@ -39,7 +39,7 @@
                         </LinearGradientBrush>
                     </ComboBox.Background>
                     <Button x:Name="RemoveAudioFile" BorderBrush="{x:Null}" Background="White" Content="Remove Audio" FontSize="15" Click="RemoveAudioFile_Click"/>
-                    <Button x:Name="RemovePlaylist" BorderBrush="{x:Null}" Background="White" Content="Remove Playlist" FontSize="15"/>
+                    <Button x:Name="RemovePlaylist" BorderBrush="{x:Null}" Background="White" Content="Remove Playlist" FontSize="15" Click="RemovePlaylist_Click"/>
                 </ComboBox>
                 <ComboBox x:Name="View" HorizontalAlignment="Left" Height="30" Margin="16.8,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black">
                     <ComboBox.Background>

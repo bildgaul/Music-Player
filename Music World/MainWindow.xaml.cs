@@ -63,6 +63,14 @@ namespace Music_World
 
         private void CreateNewPlaylist(string name)
         {
+            foreach (Playlist playlist1 in storedPlaylists)
+            {
+                if (name == playlist1.Name)
+                {
+                    MessageBox.Show("Cannot have two playlists with the same name.");
+                    return;
+                }
+            }
             Playlist playlist = new Playlist(name);
             storedPlaylists.Add(playlist);
             currentPlaylist = playlist;
@@ -112,33 +120,37 @@ namespace Music_World
 
         private void AddToPlaylist_Click(object sender, RoutedEventArgs e)
         {
+            Add_Create.IsDropDownOpen = false;
 
             if (currentPlaylist == null)
             {
                 MessageBox.Show("No playlist selected.");
                 return;
             }
+            if (storedAudioFiles.Count == 0)
+            {
+                MessageBox.Show("No audio files to add.");
+                return;
+            }
             if (AudioMenu.Height != 0)
                 return; // prevent readding all audio files
-            else
+            
+            AudioScroll.Visibility = Visibility.Visible;
+            
+            foreach (AudioFile audio in storedAudioFiles)
             {
-                AudioScroll.Visibility = Visibility.Visible;
-
-                foreach (AudioFile audio in storedAudioFiles)
+                MenuItem menuItem = new MenuItem()
                 {
-                    MenuItem menuItem = new MenuItem()
-                    {
-                        Header = audio.GetAudioName(),
-                        Width = 100,
-                        Height = 20,
-                        HorizontalContentAlignment = HorizontalAlignment.Right,
-                        Tag = audio
-                    };
-                    menuItem.Click += AddAudioFileToPlayList;
-
-                    AudioMenu.Height += 20;
-                    AudioMenu.Items.Add(menuItem);
-                }
+                    Header = audio.GetAudioName(),
+                    Width = 100,
+                    Height = 20,
+                    HorizontalContentAlignment = HorizontalAlignment.Right,
+                    Tag = audio
+                };
+                menuItem.Click += AddAudioFileToPlayList;
+                
+                AudioMenu.Height += 20;
+                AudioMenu.Items.Add(menuItem);
             }
         }
 
@@ -179,7 +191,7 @@ namespace Music_World
             AudioMenu.Height = 0;
             AudioMenu.Items.Clear();
             AudioScroll.Visibility = Visibility.Collapsed;
-            
+
             foreach (Button button in AllAudio.Children)
             {
                 if ((AudioFile)button.Tag == audioFile)
@@ -203,26 +215,88 @@ namespace Music_World
 
         private void RemoveAudioFile_Click(object sender, RoutedEventArgs e)
         {
+            Remove.IsDropDownOpen = false;
+
             if (AudioMenu.Height != 0)
                 return;
-            else
+            if (storedAudioFiles.Count == 0)
             {
-                AudioScroll.Visibility = Visibility.Visible;
-
-                foreach (AudioFile audioFile in storedAudioFiles)
+                MessageBox.Show("No audio files to remove.");
+                return;
+            }
+            
+            AudioScroll.Visibility = Visibility.Visible;
+            
+            foreach (AudioFile audioFile in storedAudioFiles)
+            {
+                MenuItem menuItem = new MenuItem()
                 {
-                    MenuItem menuItem = new MenuItem()
-                    {
-                        Header = audioFile.GetAudioName(),
-                        Width = 100,
-                        Height = 20,
-                        HorizontalContentAlignment = HorizontalAlignment.Right,
-                        Tag = audioFile
-                    };
-                    menuItem.Click += RemoveAudioFileFromList;
-                    AudioMenu.Height += 20;
-                    AudioMenu.Items.Add(menuItem);
+                    Header = audioFile.GetAudioName(),
+                    Width = 100,
+                    Height = 20,
+                    HorizontalContentAlignment = HorizontalAlignment.Right,
+                    Tag = audioFile
+                };
+                menuItem.Click += RemoveAudioFileFromList;
+                AudioMenu.Height += 20;
+                AudioMenu.Items.Add(menuItem);
+            }
+        }
+
+        private void RemoveStoredPlaylist(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            Playlist playlist = menuItem.Tag as Playlist;
+
+            AudioMenu.Height = 0;
+            AudioMenu.Items.Clear();
+            AudioScroll.Visibility = Visibility.Collapsed;
+
+            storedPlaylists.Remove(playlist);
+
+            if (currentPlaylist == playlist)
+            {
+                currentPlaylist = null;
+                SwitchPlaylists(ViewAllAudio, new RoutedEventArgs());
+            }
+
+            foreach (Button button in View.Items)
+            {
+                if ((Playlist)button.Tag == playlist)
+                {
+                    View.Items.Remove(button);
+                    break;
                 }
+            }
+        }
+
+        private void RemovePlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            Remove.IsDropDownOpen = false;
+            
+            if (AudioMenu.Height != 0)
+                return;
+            if (storedPlaylists.Count == 0)
+            {
+                MessageBox.Show("No playlists to remove.");
+                return;
+            }
+
+            AudioScroll.Visibility = Visibility.Visible;
+            
+            foreach (Playlist playlist in storedPlaylists)
+            {
+                MenuItem menuItem = new MenuItem()
+                {
+                    Header = playlist.Name,
+                    Width = 100,
+                    Height = 20,
+                    HorizontalContentAlignment = HorizontalAlignment.Right,
+                    Tag = playlist
+                };
+                menuItem.Click += RemoveStoredPlaylist;
+                AudioMenu.Height += 20;
+                AudioMenu.Items.Add(menuItem);
             }
         }
 
