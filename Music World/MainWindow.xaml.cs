@@ -118,10 +118,8 @@ namespace Music_World
                 MessageBox.Show("No playlist selected.");
                 return;
             }
-            else if (AudioMenu.Height != 0)
-            {
+            if (AudioMenu.Height != 0)
                 return; // prevent readding all audio files
-            }
             else
             {
                 AudioScroll.Visibility = Visibility.Visible;
@@ -171,7 +169,61 @@ namespace Music_World
                     AllAudio.Children.Add(audioFileButton);
                 }
             }
+        }
+
+        private void RemoveAudioFileFromList(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            AudioFile audioFile = menuItem.Tag as AudioFile;
+
+            AudioMenu.Height = 0;
+            AudioMenu.Items.Clear();
+            AudioScroll.Visibility = Visibility.Collapsed;
             
+            foreach (Button button in AllAudio.Children)
+            {
+                if ((AudioFile)button.Tag == audioFile)
+                {
+                    button.Tag = null;
+                    AllAudio.Children.Remove(button);
+                    break;
+                }
+            }
+
+            foreach (Playlist playlist in storedPlaylists)
+            {
+                if (playlist.AudioFiles.Contains(audioFile))
+                {
+                    playlist.RemoveAudioFile(audioFile);
+                }
+            }
+
+            storedAudioFiles.Remove(audioFile);
+        }
+
+        private void RemoveAudioFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (AudioMenu.Height != 0)
+                return;
+            else
+            {
+                AudioScroll.Visibility = Visibility.Visible;
+
+                foreach (AudioFile audioFile in storedAudioFiles)
+                {
+                    MenuItem menuItem = new MenuItem()
+                    {
+                        Header = audioFile.GetAudioName(),
+                        Width = 100,
+                        Height = 20,
+                        HorizontalContentAlignment = HorizontalAlignment.Right,
+                        Tag = audioFile
+                    };
+                    menuItem.Click += RemoveAudioFileFromList;
+                    AudioMenu.Height += 20;
+                    AudioMenu.Items.Add(menuItem);
+                }
+            }
         }
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
@@ -245,7 +297,5 @@ namespace Music_World
             Play();
             // add play icon next to name
         }
-
-        
     }
 }
