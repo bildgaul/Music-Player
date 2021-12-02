@@ -19,7 +19,7 @@ namespace Music_World
         List<AudioFile> storedAudioFiles = new List<AudioFile>();
         List<Playlist> storedPlaylists = new List<Playlist>();
 
-        Uri currentAudio;
+        AudioFile currentAudio;
         Playlist currentPlaylist;
 
         bool isPlaying = false;
@@ -41,10 +41,10 @@ namespace Music_World
 
         private void Play()
         {
-            if (player.Source != currentAudio)
+            if (player.Source != currentAudio.GetLocation())
             {
                 player.Close();
-                player.Open(currentAudio);
+                player.Open(currentAudio.GetLocation());
             }
             player.Play();
             ButtonImage.Source = new BitmapImage(new Uri("assets/Pause.png", UriKind.Relative)); // https://stackoverflow.com/questions/3873027/how-to-change-image-source-on-runtime/40788154
@@ -347,8 +347,6 @@ namespace Music_World
             {
                 try
                 {
-                    if (currentAudio == null)
-                        currentAudio = new Uri(fileName);
                     File fileTags = TagLib.File.Create(fileName);
                     IAudio audio = new AudioFileFactory().CreateAudioFile(new Uri(fileName), fileSelector.SafeFileName, fileTags.Tag.Title);
                     Button audioFileButton = audio.CreateButton();
@@ -367,9 +365,49 @@ namespace Music_World
         {
             Button button = sender as Button; // https://stackoverflow.com/questions/14479143/what-is-the-use-of-object-sender-and-eventargs-e-parameters
             AudioFile audioFile = button.Tag as AudioFile;
-            currentAudio = audioFile.GetLocation();
+            currentAudio = audioFile;
             Play();
             // add play icon next to name
+        }
+
+        private void Previous_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPlaylist == null)
+            {
+                if (currentAudio == storedAudioFiles[0])
+                    currentAudio = storedAudioFiles[storedAudioFiles.Count - 1];
+                else
+                    currentAudio = storedAudioFiles[storedAudioFiles.IndexOf(currentAudio) - 1];
+            }
+            else
+            {
+                if (currentAudio == currentPlaylist.AudioFiles[0])
+                    currentAudio = currentPlaylist.AudioFiles[currentPlaylist.AudioFiles.Count - 1];
+                else
+                    currentAudio = currentPlaylist.AudioFiles[currentPlaylist.AudioFiles.IndexOf(currentAudio) - 1];
+            }
+
+            Play();
+        }
+
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPlaylist == null)
+            {
+                if (currentAudio == storedAudioFiles[storedAudioFiles.Count - 1])
+                    currentAudio = storedAudioFiles[0];
+                else
+                    currentAudio = storedAudioFiles[storedAudioFiles.IndexOf(currentAudio) + 1];
+            }
+            else
+            {
+                if (currentAudio == currentPlaylist.AudioFiles[currentPlaylist.AudioFiles.Count - 1])
+                    currentAudio = currentPlaylist.AudioFiles[0];
+                else
+                    currentAudio = currentPlaylist.AudioFiles[currentPlaylist.AudioFiles.IndexOf(currentAudio) + 1];
+            }
+
+            Play();
         }
     }
 }
