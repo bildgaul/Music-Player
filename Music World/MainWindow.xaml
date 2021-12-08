@@ -11,18 +11,30 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="MainScreen" Margin="0,0,282,0">
-            <Button x:Name="PlayPause" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Margin="0,0,0,43" Height="40" Click="PlayPause_Click" Tag="Pause" DockPanel.Dock="Bottom">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFD60000"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Button x:Name="PlayPause" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Margin="0,0,0,43" Height="40" Click="PlayPause_Click" Tag="Pause" DockPanel.Dock="Bottom" Background="#FFA50101">
                 <Image x:Name="ButtonImage" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Source="assets/Play.png"/>
             </Button>
-            <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="6" Margin="0,0,0,122" VerticalAlignment="Bottom" Width="252" DockPanel.Dock="Bottom"/>
-            <Button x:Name="Next" Content="Next" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="150,0,0,43" Click="Next_Click"/>
-            <Button x:Name="Previous" Content="Previous" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="0,0,150,43" Click="Previous_Click"/>
-            <Button x:Name="Shuffle" Content="Shuffle" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="0,0,300,43" Click="Shuffle_Click"/>
-            <Button x:Name="Repeat" Content="Repeat" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="300,0,0,43" Click="Repeat_Click"/>
-            <Slider x:Name="Volume" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,79,0,0" Height="198" Width="20" Orientation="Vertical" Maximum="1" LargeChange="0.05" SmallChange="0.01" ValueChanged="Volume_ValueChanged" Value="0.5"/>
+            <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="6" Margin="0,0,0,122" VerticalAlignment="Bottom" Width="252" DockPanel.Dock="Bottom" Background="Black" BorderBrush="Black" Foreground="#FFA50101"/>
+            <Button x:Name="Next" Content="Next" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="150,0,0,43" Click="Next_Click" Background="#FFA50101"/>
+            <Button x:Name="Previous" Content="Previous" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="0,0,150,43" Click="Previous_Click" Background="#FFA50101"/>
+            <Button x:Name="Shuffle" Content="Shuffle" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="0,0,300,43" Click="Shuffle_Click" Background="#FFA50101"/>
+            <Button x:Name="Repeat" Content="Repeat" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Margin="300,0,0,43" Click="Repeat_Click" Background="#FFA50101"/>
+            <Slider x:Name="Volume" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,79,0,0" Height="198" Width="20" Orientation="Vertical" Maximum="1" LargeChange="0.05" SmallChange="0.01" ValueChanged="Volume_ValueChanged" Value="0.5" Foreground="White" BorderBrush="#00000000" Background="Transparent"/>
         </Grid>
         <Border BorderBrush="Black" BorderThickness="1.5" HorizontalAlignment="Right" Width="282">
             <DockPanel x:Name="SideDock" HorizontalAlignment="Right" LastChildFill="False" Width="282">
+                <DockPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#FFD60000"/>
+                    </LinearGradientBrush>
+                </DockPanel.Background>
                 <ComboBox x:Name="Add_Create" Text="Add/Create" HorizontalAlignment="Left" Height="30" Margin="16.8,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black" FontSize="18">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -30,9 +42,9 @@
                             <GradientStop Color="White" Offset="1"/>
                         </LinearGradientBrush>
                     </ComboBox.Background>
-                    <Button x:Name="AddAudioFile" BorderBrush="{x:Null}" Background="White" Content="Add New Song" FontSize="15" Width="139" Click="AddAudioFile_Click"/>
-                    <Button x:Name="AddToPlaylist" BorderBrush="{x:Null}" Background="White" Content="Add Song To Playlist" FontSize="15" Click="AddToPlaylist_Click"/>
-                    <Button x:Name="CreatePlaylist" BorderBrush="{x:Null}" Background="White" Content="Create Playlist" FontSize="15" Width="139" Click="CreatePlaylist_Click"/>
+                    <Button x:Name="AddAudioFile" BorderBrush="{x:Null}" Background="#FFA50101" Content="Add New Song" FontSize="15" Width="139" Click="AddAudioFile_Click"/>
+                    <Button x:Name="AddToPlaylist" BorderBrush="{x:Null}" Background="#FFA50101" Content="Add Song To Playlist" FontSize="15" Click="AddToPlaylist_Click"/>
+                    <Button x:Name="CreatePlaylist" BorderBrush="{x:Null}" Background="#FFA50104" Content="Create Playlist" FontSize="15" Width="139" Click="CreatePlaylist_Click"/>
                 </ComboBox>
                 <ComboBox x:Name="Remove" HorizontalAlignment="Left" Height="30" Margin=" 16.8,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black">
                     <ComboBox.Background>
@@ -41,8 +53,8 @@
                             <GradientStop Color="White" Offset="1"/>
                         </LinearGradientBrush>
                     </ComboBox.Background>
-                    <Button x:Name="RemoveAudioFile" BorderBrush="{x:Null}" Background="White" Content="Remove Audio" FontSize="15" Click="RemoveAudioFile_Click"/>
-                    <Button x:Name="RemovePlaylist" BorderBrush="{x:Null}" Background="White" Content="Remove Playlist" FontSize="15" Click="RemovePlaylist_Click"/>
+                    <Button x:Name="RemoveAudioFile" BorderBrush="{x:Null}" Background="#FFA50101" Content="Remove Audio" FontSize="15" Click="RemoveAudioFile_Click"/>
+                    <Button x:Name="RemovePlaylist" BorderBrush="{x:Null}" Background="#FFA50101" Content="Remove Playlist" FontSize="15" Click="RemovePlaylist_Click"/>
                 </ComboBox>
                 <ComboBox x:Name="View" HorizontalAlignment="Left" Height="30" Margin="16.8,19,0,0" VerticalAlignment="Top" Width="72" BorderBrush="Black">
                     <ComboBox.Background>
@@ -51,7 +63,7 @@
                             <GradientStop Color="White" Offset="1"/>
                         </LinearGradientBrush>
                     </ComboBox.Background>
-                    <Button x:Name="ViewAllAudio" BorderBrush="{x:Null}" Background="White" Content="All Audio" FontSize="15" Click="SwitchPlaylists"/>
+                    <Button x:Name="ViewAllAudio" BorderBrush="{x:Null}" Background="#FFA50101" Content="All Audio" FontSize="15" Click="SwitchPlaylists"/>
                 </ComboBox>
                 <ScrollViewer Width="271" VerticalScrollBarVisibility="Auto" Height="343" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Margin="-263.5,0,0,0">
                     <StackPanel x:Name="AllAudio" HorizontalAlignment="Left" Width="271"/>

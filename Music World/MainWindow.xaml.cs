@@ -78,6 +78,7 @@ namespace Music_World
             currentPlaylist = playlist;
 
             Button playlistButton = playlist.CreateButton();
+            playlistButton.Background = ViewAllAudio.Background;
             playlistButton.Click += SwitchPlaylists;
             View.Items.Add(playlistButton);
 
