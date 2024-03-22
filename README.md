@@ -1,7 +1,7 @@
 # Music-World
 A group project for CSCI 352
 
-Authors: Billy Gauldin & Vrushank Mali
+Authors: Lucy Gauldin & Vrushank Mali
 
 Last date modified: 12/2/2021
 
@@ -77,7 +77,7 @@ Questions and Feedback:-
     
     For any queries/questions and feedback, contact us below:
         Vrushank Mali:  vrujmali@ut.utm.edu
-        Billy Gauldin:  bildgaul@ut.utm.edu
+        Lucy Gauldin:  bildgaul@ut.utm.edu
     
 
 ***THANK YOU FOR READING ME***
